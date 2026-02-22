@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
-<body class="geist-font bg-[#F8FAFC] px-5">
+<body class="geist-font bg-[#F8FAFC] px-5 min-h-screen">
 
     <!-- Header Section-->
     <header class="container mx-auto">
@@ -31,15 +31,15 @@
         <div class="pb-[30px] border-b-2 border-[#dfdfdf] grid grid-cols-3 gap-4">
             <div class="p-5 bg-[#ffffff] border-2 border-[#dfdfdf] rounded-xl">
                 <p class="font-medium text-[14px] text-[#323B49]">Total</p>
-                <p class="font-bold text-[24px] text-[#002C5C]">8</p>
+                <p id="total" class="font-bold text-[24px] text-[#002C5C]">0</p>
             </div>
             <div class="p-5 bg-[#ffffff] border-2 border-[#dfdfdf] rounded-xl">
                 <p class="font-medium text-[14px] text-[#323B49]">Interview</p>
-                <p class="font-bold text-[24px] text-[#10B981]">0</p>
+                <p id="interview" class="font-bold text-[24px] text-[#10B981]">0</p>
             </div>
             <div class="p-5 bg-[#ffffff] border-2 border-[#dfdfdf] rounded-xl">
                 <p class="font-medium text-[14px] text-[#323B49]">Rejected</p>
-                <p class="font-bold text-[24px] text-[#EF4444]">0</p>
+                <p id="rejected" class="font-bold text-[24px] text-[#EF4444]">0</p>
             </div>
         </div>
     </header>
@@ -49,181 +49,188 @@
         <div>
             <div class="flex justify-between">
                 <h2 class="font-semibold text-[20px] text-[#002C5C]">Available Jobs</h2>
-                <p class="font-medium text-[#64748B]">8 Jobs</p>
+                <p id="job" class="font-medium text-[#64748B]">0 Jobs</p>
             </div>
             <div class="space-x-2 pt-6">
-                <button class="btn bg-[#3B82F6] text-white px-8 border-0">All</button>
-                <button class="btn text-[#64748B]">Interview</button>
-                <button class="btn text-[#64748B]">Rejected</button>
+                <button onclick="toggleStyle('all-btn')" id="all-btn" class="btn bg-[#3B82F6] text-white px-8 border-2 rounded-md">All</button>
+                <button onclick="toggleStyle('interview-btn')" id="interview-btn" class="btn text-[#64748B] border-2 rounded-md">Interview</button>
+                <button onclick="toggleStyle('rejected-btn')" id="rejected-btn" class="btn text-[#64748B] border-2 rounded-md">Rejected</button>
             </div>
         </div>
-        <div class="space-y-4 pt-6 pb-[60px]">
+        <section id="filtered-section" class="container mx-auto bg-white my-5 rounded-xl hidden">
+            <div class="flex justify-center flex-col items-center py-[110px]">
+                <img src="assets/jobs.png" alt="" class="w-25 h-25">
+                <h2 class="font-semibold text-[24px] text-[#002C5C]">No jobs available</h2>
+                <p class="text-[#64748B]">Check back soon for new job opportunities</p>
+            </div>
+        </section>
+        <div id="all-cards" class="space-y-4 pt-6 pb-[60px]">
             <!-- Card 1 -->
             <div class="p-6 bg-[#ffffff] border-2 border-[#dfdfdf] rounded-2xl">
                 <div class="flex justify-between">
-                    <h3 class="font-semibold text-[18px] text-[#002C5C]">Mobile First Corp</h3>
+                    <h3 class="font-semibold text-[18px] text-[#002C5C] title">Mobile First Corp</h3>
                     <div class="text-[#64748B] px-2 py-1.5 border-2 border-[#dfdfdf] rounded-full inline-block">
                         <i class="fa-regular fa-trash-can"></i>
                     </div>
                 </div>
-                <p class="text-[#64748B] pb-5">React Native Developer</p>
-                <p class="space-x-2 text-[#64748B] pb-5">
+                <p class="text-[#64748B] pb-5 sub-title">React Native Developer</p>
+                <p class="space-x-2 text-[#64748B] pb-5 description">
                     <span>Remote</span>
                     <span>• Full-time</span>
                     <span>• $130,000 - $175,000</span>
                 </p>
-                <button class="btn bg-[#EEF4FF] text-[#002C5C] border-0 mb-3">Not Applied</button>
-                <p class="text-[#323B49] pb-5">Build cross-platform mobile applications using React Native. Work on products used by millions of users worldwide.</p>
+                <button class="btn bg-[#EEF4FF] text-[#002C5C] border-0 mb-3 apply">Not Applied</button>
+                <p class="text-[#323B49] pb-5 paragraph">Build cross-platform mobile applications using React Native. Work on products used by millions of users worldwide.</p>
                 <div class="space-x-2">
-                    <button class="btn btn-outline btn-success">INTERVIEW</button>
-                    <button class="btn btn-outline btn-secondary">REJECTED</button>   
+                    <button class="btn btn-outline btn-success inter-btn">INTERVIEW</button>
+                    <button class="btn btn-outline btn-secondary rej-btn">REJECTED</button>   
                 </div>
             </div>
             <!-- Card 2 -->
             <div class="p-6 bg-[#ffffff] border-2 border-[#dfdfdf] rounded-2xl">
                 <div class="flex justify-between">
-                    <h3 class="font-semibold text-[18px] text-[#002C5C]">WebFlow Agency</h3>
+                    <h3 class="font-semibold text-[18px] text-[#002C5C] title">WebFlow Agency</h3>
                     <div class="text-[#64748B] px-2 py-1.5 border-2 border-[#dfdfdf] rounded-full inline-block">
                         <i class="fa-regular fa-trash-can"></i>
                     </div>
                 </div>
-                <p class="text-[#64748B] pb-5">Web Designer & Developer</p>
-                <p class="space-x-2 text-[#64748B] pb-5">
+                <p class="text-[#64748B] pb-5 sub-title">Web Designer & Developer</p>
+                <p class="space-x-2 text-[#64748B] pb-5 description">
                     <span>Los Angeles, CA</span>
                     <span>• Part-time</span>
                     <span>• $80,000 - $120,000</span>
                 </p>
-                <button class="btn bg-[#EEF4FF] text-[#002C5C] border-0 mb-3">Not Applied</button>
-                <p class="text-[#323B49] pb-5">Create stunning web experiences for high-profile clients. Must have portfolio and experience with modern web design trends.</p>
+                <button class="btn bg-[#EEF4FF] text-[#002C5C] border-0 mb-3 apply">Not Applied</button>
+                <p class="text-[#323B49] pb-5 paragraph">Create stunning web experiences for high-profile clients. Must have portfolio and experience with modern web design trends.</p>
                 <div class="space-x-2">
-                    <button class="btn btn-outline btn-success">INTERVIEW</button>
-                    <button class="btn btn-outline btn-secondary">REJECTED</button>   
+                    <button class="btn btn-outline btn-success inter-btn">INTERVIEW</button>
+                    <button class="btn btn-outline btn-secondary rej-btn">REJECTED</button>   
                 </div>
             </div>
             <!-- Card 3 -->
             <div class="p-6 bg-[#ffffff] border-2 border-[#dfdfdf] rounded-2xl">
                 <div class="flex justify-between">
-                    <h3 class="font-semibold text-[18px] text-[#002C5C]">DataViz Solutions</h3>
+                    <h3 class="font-semibold text-[18px] text-[#002C5C] title">DataViz Solutions</h3>
                     <div class="text-[#64748B] px-2 py-1.5 border-2 border-[#dfdfdf] rounded-full inline-block">
                         <i class="fa-regular fa-trash-can"></i>
                     </div>
                 </div>
-                <p class="text-[#64748B] pb-5">Data Visualization Specialist</p>
-                <p class="space-x-2 text-[#64748B] pb-5">
+                <p class="text-[#64748B] pb-5 sub-title">Data Visualization Specialist</p>
+                <p class="space-x-2 text-[#64748B] pb-5 description">
                     <span>Boston, MA</span>
                     <span>• Full-time</span>
                     <span>• $125,000 - $165,000</span>
                 </p>
-                <button class="btn bg-[#EEF4FF] text-[#002C5C] border-0 mb-3">Not Applied</button>
-                <p class="text-[#323B49] pb-5">Transform complex data into compelling visualizations. Required skills: D3.js, React, and strong analytical thinking.</p>
+                <button class="btn bg-[#EEF4FF] text-[#002C5C] border-0 mb-3 apply">Not Applied</button>
+                <p class="text-[#323B49] pb-5 paragraph">Transform complex data into compelling visualizations. Required skills: D3.js, React, and strong analytical thinking.</p>
                 <div class="space-x-2">
-                    <button class="btn btn-outline btn-success">INTERVIEW</button>
-                    <button class="btn btn-outline btn-secondary">REJECTED</button>   
+                    <button class="btn btn-outline btn-success inter-btn">INTERVIEW</button>
+                    <button class="btn btn-outline btn-secondary rej-btn">REJECTED</button>   
                 </div>
             </div>
             <!-- Card 4 -->
             <div class="p-6 bg-[#ffffff] border-2 border-[#dfdfdf] rounded-2xl">
                 <div class="flex justify-between">
-                    <h3 class="font-semibold text-[18px] text-[#002C5C]">CloudFirst Inc</h3>
+                    <h3 class="font-semibold text-[18px] text-[#002C5C] title">CloudFirst Inc</h3>
                     <div class="text-[#64748B] px-2 py-1.5 border-2 border-[#dfdfdf] rounded-full inline-block">
                         <i class="fa-regular fa-trash-can"></i>
                     </div>
                 </div>
-                <p class="text-[#64748B] pb-5">Backend Developer</p>
-                <p class="space-x-2 text-[#64748B] pb-5">
+                <p class="text-[#64748B] pb-5 sub-title">Backend Developer</p>
+                <p class="space-x-2 text-[#64748B] pb-5 description">
                     <span>Seattle, WA</span>
                     <span>• Full-time</span>
                     <span>• $140,000 - $190,000</span>
                 </p>
-                <button class="btn bg-[#EEF4FF] text-[#002C5C] border-0 mb-3">Not Applied</button>
-                <p class="text-[#323B49] pb-5">Design and maintain scalable backend systems using Python and AWS. Work with modern DevOps practices and cloud infrastructure.</p>
+                <button class="btn bg-[#EEF4FF] text-[#002C5C] border-0 mb-3 apply">Not Applied</button>
+                <p class="text-[#323B49] pb-5 paragraph">Design and maintain scalable backend systems using Python and AWS. Work with modern DevOps practices and cloud infrastructure.</p>
                 <div class="space-x-2">
-                    <button class="btn btn-outline btn-success">INTERVIEW</button>
-                    <button class="btn btn-outline btn-secondary">REJECTED</button>   
+                    <button class="btn btn-outline btn-success inter-btn">INTERVIEW</button>
+                    <button class="btn btn-outline btn-secondary rej-btn">REJECTED</button>   
                 </div>
             </div>
             <!-- Card 5 -->
             <div class="p-6 bg-[#ffffff] border-2 border-[#dfdfdf] rounded-2xl">
                 <div class="flex justify-between">
-                    <h3 class="font-semibold text-[18px] text-[#002C5C]">Innovation Labs</h3>
+                    <h3 class="font-semibold text-[18px] text-[#002C5C] title">Innovation Labs</h3>
                     <div class="text-[#64748B] px-2 py-1.5 border-2 border-[#dfdfdf] rounded-full inline-block">
                         <i class="fa-regular fa-trash-can"></i>
                     </div>
                 </div>
-                <p class="text-[#64748B] pb-5">UI/UX Engineer</p>
-                <p class="space-x-2 text-[#64748B] pb-5">
+                <p class="text-[#64748B] pb-5 sub-title">UI/UX Engineer</p>
+                <p class="space-x-2 text-[#64748B] pb-5 description">
                     <span>Austin, TX</span>
                     <span>• Full-time</span>
                     <span>• $110,000 - $150,000</span>
                 </p>
-                <button class="btn bg-[#EEF4FF] text-[#002C5C] border-0 mb-3">Not Applied</button>
-                <p class="text-[#323B49] pb-5">Create beautiful and functional user interfaces for our suite of products. Strong design skills and frontend development expertise required.</p>
+                <button class="btn bg-[#EEF4FF] text-[#002C5C] border-0 mb-3 apply">Not Applied</button>
+                <p class="text-[#323B49] pb-5 paragraph">Create beautiful and functional user interfaces for our suite of products. Strong design skills and frontend development expertise required.</p>
                 <div class="space-x-2">
-                    <button class="btn btn-outline btn-success">INTERVIEW</button>
-                    <button class="btn btn-outline btn-secondary">REJECTED</button>   
+                    <button class="btn btn-outline btn-success inter-btn">INTERVIEW</button>
+                    <button class="btn btn-outline btn-secondary rej-btn">REJECTED</button>
                 </div>
             </div>
             <!-- Card 6 -->
             <div class="p-6 bg-[#ffffff] border-2 border-[#dfdfdf] rounded-2xl">
                 <div class="flex justify-between">
-                    <h3 class="font-semibold text-[18px] text-[#002C5C]">MegaCorp Solutions</h3>
+                    <h3 class="font-semibold text-[18px] text-[#002C5C] title">MegaCorp Solutions</h3>
                     <div class="text-[#64748B] px-2 py-1.5 border-2 border-[#dfdfdf] rounded-full inline-block">
                         <i class="fa-regular fa-trash-can"></i>
                     </div>
                 </div>
-                <p class="text-[#64748B] pb-5">JavaScript Developer</p>
-                <p class="space-x-2 text-[#64748B] pb-5">
+                <p class="text-[#64748B] pb-5 sub-title">JavaScript Developer</p>
+                <p class="space-x-2 text-[#64748B] pb-5 description">
                     <span>New York, NY</span>
                     <span>• Full-time</span>
                     <span>• $130,000 - $170,00</span>
                 </p>
-                <button class="btn bg-[#EEF4FF] text-[#002C5C] border-0 mb-3">Not Applied</button>
-                <p class="text-[#323B49] pb-5">Build enterprise applications with JavaScript and modern frameworks. We offer competitive compensation, health insurance, and professional development opportunities.</p>
+                <button class="btn bg-[#EEF4FF] text-[#002C5C] border-0 mb-3 apply">Not Applied</button>
+                <p class="text-[#323B49] pb-5 paragraph">Build enterprise applications with JavaScript and modern frameworks. We offer competitive compensation, health insurance, and professional development opportunities.</p>
                 <div class="space-x-2">
-                    <button class="btn btn-outline btn-success">INTERVIEW</button>
-                    <button class="btn btn-outline btn-secondary">REJECTED</button>   
+                    <button class="btn btn-outline btn-success inter-btn">INTERVIEW</button>
+                    <button class="btn btn-outline btn-secondary rej-btn">REJECTED</button>
                 </div>
             </div>
             <!-- Card 7 -->
             <div class="p-6 bg-[#ffffff] border-2 border-[#dfdfdf] rounded-2xl">
                 <div class="flex justify-between">
-                    <h3 class="font-semibold text-[18px] text-[#002C5C]">StartupXYZ</h3>
+                    <h3 class="font-semibold text-[18px] text-[#002C5C] title">StartupXYZ</h3>
                     <div class="text-[#64748B] px-2 py-1.5 border-2 border-[#dfdfdf] rounded-full inline-block">
                         <i class="fa-regular fa-trash-can"></i>
                     </div>
                 </div>
-                <p class="text-[#64748B] pb-5">Full Stack Engineer</p>
-                <p class="space-x-2 text-[#64748B] pb-5">
+                <p class="text-[#64748B] pb-5 sub-title">Full Stack Engineer</p>
+                <p class="space-x-2 text-[#64748B] pb-5 description">
                     <span>Remote</span>
                     <span>• Full-time</span>
                     <span>• $120,000 - $160,000</span>
                 </p>
-                <button class="btn bg-[#EEF4FF] text-[#002C5C] border-0 mb-3">Not Applied</button>
-                <p class="text-[#323B49] pb-5">Join our fast-growing startup and work on our core platform. Experience with Node.js and React required. Great benefits and equity package included.</p>
+                <button class="btn bg-[#EEF4FF] text-[#002C5C] border-0 mb-3 apply">Not Applied</button>
+                <p class="text-[#323B49] pb-5 paragraph">Join our fast-growing startup and work on our core platform. Experience with Node.js and React required. Great benefits and equity package included.</p>
                 <div class="space-x-2">
-                    <button class="btn btn-outline btn-success">INTERVIEW</button>
-                    <button class="btn btn-outline btn-secondary">REJECTED</button>   
+                    <button class="btn btn-outline btn-success inter-btn">INTERVIEW</button>
+                    <button class="btn btn-outline btn-secondary rej-btn">REJECTED</button>
                 </div>
             </div>
             <!-- Card 8 -->
             <div class="p-6 bg-[#ffffff] border-2 border-[#dfdfdf] rounded-2xl">
                 <div class="flex justify-between">
-                    <h3 class="font-semibold text-[18px] text-[#002C5C]">TechCorp Industries</h3>
+                    <h3 class="font-semibold text-[18px] text-[#002C5C] title">TechCorp Industries</h3>
                     <div class="text-[#64748B] px-2 py-1.5 border-2 border-[#dfdfdf] rounded-full inline-block">
                         <i class="fa-regular fa-trash-can"></i>
                     </div>
                 </div>
-                <p class="text-[#64748B] pb-5">Senior Frontend Developer</p>
+                <p class="text-[#64748B] pb-5 sub-title">Senior Frontend Developer</p>
                 <p class="space-x-2 text-[#64748B] pb-5">
                     <span>San Francisco, CA</span>
                     <span>• Full-time</span>
                     <span>• $130,000 - $175,000</span>
                 </p>
-                <button class="btn bg-[#EEF4FF] text-[#002C5C] border-0 mb-3">Not Applied</button>
-                <p class="text-[#323B49] pb-5">We are looking for an experienced Frontend Developer to build scalable web applications using React and TypeScript. You will work with a talented team on cutting-edge projects.</p>
+                <button class="btn bg-[#EEF4FF] text-[#002C5C] border-0 mb-3 apply">Not Applied</button>
+                <p class="text-[#323B49] pb-5 paragraph">We are looking for an experienced Frontend Developer to build scalable web applications using React and TypeScript. You will work with a talented team on cutting-edge projects.</p>
                 <div class="space-x-2">
-                    <button class="btn btn-outline btn-success">INTERVIEW</button>
-                    <button class="btn btn-outline btn-secondary">REJECTED</button>   
+                    <button class="btn btn-outline btn-success inter-btn">INTERVIEW</button>
+                    <button class="btn btn-outline btn-secondary rej-btn">REJECTED</button>   
                 </div>
             </div>
         </div>
